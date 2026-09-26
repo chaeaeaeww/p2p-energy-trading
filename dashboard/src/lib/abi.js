@@ -1,5 +1,5 @@
 // ABI dạng human-readable (ethers v6). Phải khớp với contract của nhóm.
-// Chi tiết ý nghĩa từng hàm / event: xem dashboard/CONTRACT_INTERFACE.md
+// Ý nghĩa từng hàm / event: xem Chương 5 của báo cáo kỹ thuật (docs/report).
 // Nếu Bảo đổi tên hàm/tham số, chỉ cần sửa file này (hoặc thay bằng ABI JSON từ artifacts của Hardhat).
 
 export const ENERGY_TOKEN_ABI = [

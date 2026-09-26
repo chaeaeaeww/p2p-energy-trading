@@ -14,7 +14,7 @@
  *
  * Topic:   <TOPIC_PREFIX>/<HOUSE_ID>/telemetry
  * Payload: {"houseId":"H01","ts":1727350000,"V":18.2,"I":2.1,"P":38.2,"E_gen_Wh":12.4,"E_load_Wh":8.1}
- * (khớp với dashboard/CONTRACT_INTERFACE.md)
+ * (khớp với định dạng dữ liệu ở mục 2.3 báo cáo kỹ thuật)
  */
 #include <WiFi.h>
 #include <PubSubClient.h>
