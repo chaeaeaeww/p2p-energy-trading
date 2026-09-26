@@ -59,30 +59,3 @@ Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện d
     └── src/              # Web3 dashboard (ethers.js, MetaMask)
 ```
 
-## Yêu cầu môi trường
-
-- Node.js ≥ 18, npm
-- Python ≥ 3.10
-- MQTT broker: Mosquitto (local) hoặc `broker.hivemq.com`
-- MetaMask + ví testnet Sepolia (có SepoliaETH từ faucet)
-- (Tùy chọn) Arduino IDE / PlatformIO cho ESP32
-
-## Cài đặt
-
-```bash
-git clone https://github.com/<username>/<repo>.git
-cd <repo>
-cp .env.example .env      # điền RPC URL, private key, địa chỉ contract...
-```
-
-## Chạy demo End-to-End (IoT → AI → Smart Contract)
-
-| Bước | Lệnh | Thư mục |
-|---|---|---|
-| 1. Chạy blockchain local | `npx hardhat node` | `contracts/` |
-| 2. Deploy contract | `npx hardhat run scripts/deploy.js --network localhost` | `contracts/` |
-| 3. Chạy mô hình AI | `python src/serve.py` | `ai_model/` |
-| 4. Chạy simulator IoT | `python simulator/simulate_meters.py` | `iot_code/` |
-| 5. Mở dashboard | `npm install && npm run dev` | `dashboard/` |
-
-> Lệnh cụ thể sẽ được cập nhật khi từng tầng hoàn thiện.
