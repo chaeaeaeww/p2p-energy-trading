@@ -1,7 +1,7 @@
 # ☀️ P2P Solar Energy Trading — CPS tích hợp IoT · AI · Blockchain
 
-> Đồ án cuối kỳ học phần **Cơ sở Blockchain và Ứng dụng**
-> **Đề tài 1:** Hệ thống quản lý và giao dịch năng lượng mặt trời P2P
+> Project cuối kỳ học phần **Blockchain và Ứng dụng**<br>
+> **Đề tài 1:** Hệ thống quản lý và giao dịch năng lượng mặt trời P2P<br>
 > GVHD: Huỳnh Thế Thiện · Nhóm: **08**
 
 Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện dư (IoT), dùng AI dự báo sản lượng và nhu cầu tiêu thụ, sau đó Smart Contract tự động mở phiên đấu giá, khớp lệnh và thanh toán bằng token.
