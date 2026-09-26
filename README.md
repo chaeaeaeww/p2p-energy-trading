@@ -11,7 +11,7 @@ Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện d
 | Thành viên | MSSV | Phụ trách | Thư mục |
 |---|---|---|---|
 | Đoàn Minh Duy Bình | 23139005 | Tầng IoT (ESP32 / simulator, MQTT) | `iot_code/` |
-| Thái Hữu Lợi | 231390 | Tầng AI (Regression / LSTM) | `ai_model/` |
+| Thái Hữu Lợi | 23139027 | Tầng AI (Regression / LSTM) | `ai_model/` |
 | Vũ Quốc Bảo | 23139004 | Smart Contract (Solidity, Hardhat) | `contracts/` |
 | Lê Nhật Nam | 23139029 | Web3 Dashboard | `dashboard/` |
 
