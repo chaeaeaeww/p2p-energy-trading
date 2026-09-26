@@ -2,7 +2,7 @@
 
 > Đồ án cuối kỳ học phần **Cơ sở Blockchain và Ứng dụng**
 > **Đề tài 1:** Hệ thống quản lý và giao dịch năng lượng mặt trời P2P
-> GVHD: Huỳnh Thế Thiện · Nhóm: **XX**
+> GVHD: Huỳnh Thế Thiện · Nhóm: **08**
 
 Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện dư (IoT), dùng AI dự báo sản lượng và nhu cầu tiêu thụ, sau đó Smart Contract tự động mở phiên đấu giá, khớp lệnh và thanh toán bằng token.
 
@@ -40,7 +40,7 @@ Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện d
 ```
 .
 ├── README.md             # Hướng dẫn cài đặt & chạy demo
-├── Report_NhomXX.pdf     # Báo cáo kỹ thuật (thêm khi hoàn thành)
+├── Report_Nhom08.pdf     # Báo cáo kỹ thuật (thêm khi hoàn thành)
 ├── .env.example          # Mẫu biến môi trường — copy thành .env
 ├── docs/
 │   ├── report/           # Bản thảo báo cáo
@@ -97,5 +97,5 @@ cp .env.example .env      # điền RPC URL, private key, địa chỉ contract.
 - [ ] Luồng End-to-End chạy thông suốt IoT → AI → Smart Contract
 - [ ] Contract deploy thành công trên Sepolia/Amoy hoặc Hardhat local
 - [ ] Kết nối Backend/Frontend bằng ethers.js hoặc web3.py
-- [ ] `Report_NhomXX.pdf` (10–15 trang)
+- [ ] `Report_Nhom08.pdf` (10–15 trang)
 - [ ] Repo để chế độ **Public**, trưởng nhóm nộp link lên LMS
