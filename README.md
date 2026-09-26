@@ -8,12 +8,12 @@ Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện d
 
 ## Thành viên & phân công
 
-| Thành viên | MSSV | Phụ trách | Thư mục |
+| Thành viên | MSSV | Phụ trách |
 |---|---|---|---|
-| Đoàn Minh Duy Bình | 23139005 | Tầng IoT | `iot_code/` |
-| Thái Hữu Lợi | 23139027 | Tầng AI | `ai_model/` |
-| Vũ Quốc Bảo | 23139004 | Smart Contract | `contracts/` |
-| Lê Nhật Nam | 23139029 | Web3 Dashboard | `dashboard/` |
+| Đoàn Minh Duy Bình | 23139005 | Tầng IoT |
+| Thái Hữu Lợi | 23139027 | Tầng AI |
+| Vũ Quốc Bảo | 23139004 | Smart Contract |
+| Lê Nhật Nam | 23139029 | Web3 Dashboard |
 
 ## Kiến trúc tổng quan
 
