@@ -86,16 +86,3 @@ cp .env.example .env      # điền RPC URL, private key, địa chỉ contract.
 | 5. Mở dashboard | `npm install && npm run dev` | `dashboard/` |
 
 > Lệnh cụ thể sẽ được cập nhật khi từng tầng hoàn thiện.
-
-## Tính năng nâng cao (Innovation)
-
-- [ ] Web3 Dashboard realtime + MetaMask + truy vết giao dịch trên Etherscan
-- [ ] (Tùy chọn) Chainlink Oracle / Edge AI trên ESP32 (TFLite) / ZK-proof
-
-## Checklist nộp bài
-
-- [ ] Luồng End-to-End chạy thông suốt IoT → AI → Smart Contract
-- [ ] Contract deploy thành công trên Sepolia/Amoy hoặc Hardhat local
-- [ ] Kết nối Backend/Frontend bằng ethers.js hoặc web3.py
-- [ ] `Report_Nhom08.pdf` (10–15 trang)
-- [ ] Repo để chế độ **Public**, trưởng nhóm nộp link lên LMS
