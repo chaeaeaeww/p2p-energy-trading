@@ -59,33 +59,3 @@ Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện d
     └── src/              # Web3 dashboard (ethers.js, MetaMask)
 ```
 
-## Yêu cầu môi trường
-
-- Node.js ≥ 18, npm
-- Python ≥ 3.10
-- MQTT broker: Mosquitto (local) hoặc `broker.hivemq.com`
-- MetaMask + ví testnet Sepolia (có SepoliaETH từ faucet)
-- (Tùy chọn) Arduino IDE / PlatformIO cho ESP32
-
-## Cài đặt
-
-```bash
-git clone https://github.com/<username>/<repo>.git
-cd <repo>
-cp .env.example .env      # điền RPC URL, private key, địa chỉ contract...
-```
-
-## Chạy demo End-to-End (IoT → AI → Smart Contract)
-
-Cài 1 lần: `cd contracts && npm install`, `cd dashboard && npm install`.
-
-| Bước | Lệnh | Thư mục |
-|---|---|---|
-| 1. Blockchain local | `npm run node` | `contracts/` |
-| 2. MQTT broker (TCP 1883 + WS 9001) | `npm run broker` | `contracts/` |
-| 3. Deploy + đăng ký hộ H01–H04 | `npm run deploy:local` rồi `npm run seed:local` | `contracts/` |
-| 4. Oracle bridge MQTT → contract | `npm run bridge:local` | `contracts/` |
-| 5. Nguồn dữ liệu IoT + AI | simulator/ESP32 + AI service (tạm thời: `npm run mock`) | `iot_code/`, `ai_model/` |
-| 6. Dashboard | `npm run dev` | `dashboard/` |
-
-Chi tiết contract, định dạng MQTT, lệnh điều khiển và deploy Sepolia: xem [`contracts/README.md`](contracts/README.md).
