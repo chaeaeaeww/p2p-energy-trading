@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { CONTRACT_ERRORS_ABI } from "./abi";
 
 export function shorten(value, head = 6, tail = 4) {
   if (!value) return "—";
@@ -105,7 +106,62 @@ export function formatToken(amount, decimals, digits = 4) {
   return fmt(Number(ethers.formatUnits(amount, decimals)), digits);
 }
 
+const errorsIface = new ethers.Interface(CONTRACT_ERRORS_ABI);
+
+const ERROR_TEXT = {
+  NotRegistered: () => "Ví này chưa đăng ký hộ nào",
+  AlreadyRegistered: () => "Ví này đã đăng ký hộ rồi",
+  HouseIdTaken: () => "Mã hộ này đã có ví khác dùng",
+  EmptyHouseId: () => "Chưa nhập mã hộ",
+  InvalidAmount: () => "Số lượng và giá phải lớn hơn 0",
+  SlotNotOpen: a => `Slot #${a[0]} đã qua hoặc đã đóng phiên — hãy chọn slot mới hơn`,
+  SlotTooFar: a => `Slot #${a[0]} quá xa (tối đa 96 slot tới)`,
+  SlotFull: a => `Slot #${a[0]} đã đủ 40 lệnh`,
+  OppositeSideExists: () => "Ví này đã đặt lệnh phía ngược lại trong slot này — hãy dùng ví khác",
+  ExceedsForecast: a => `Bán vượt phần điện dư AI dự báo — chỉ còn bán được tối đa ${a[0]} Wh`,
+  TooEarly: () => "Chưa đến lúc (slot chưa kết thúc)",
+  AlreadyClosed: () => "Phiên của slot này đã đóng",
+  NotClosed: () => "Phiên chưa đóng",
+  AlreadySettled: () => "Slot đã thanh toán",
+  AlreadyReported: () => "Chỉ số công tơ đã được ghi",
+  FutureSlot: () => "Slot chưa kết thúc",
+  MissingMeter: () => "Người bán chưa có chỉ số công tơ",
+  AccessControlUnauthorizedAccount: () => "Ví không có quyền thực hiện thao tác này",
+  ERC20InsufficientAllowance: () => "Chưa approve đủ SOLAR cho contract",
+  ERC20InsufficientBalance: () => "Không đủ SOLAR",
+};
+
+/** Tìm dữ liệu revert (hex) nằm sâu trong lỗi của MetaMask/ethers và dịch sang tiếng Việt. */
+function decodeRevert(e) {
+  if (e?.revert?.name && ERROR_TEXT[e.revert.name]) return ERROR_TEXT[e.revert.name](e.revert.args || []);
+  const seen = new Set();
+  const stack = [e];
+  while (stack.length) {
+    const x = stack.pop();
+    if (!x || typeof x !== "object" || seen.has(x)) continue;
+    seen.add(x);
+    for (const v of Object.values(x)) {
+      if (typeof v === "string" && /^0x[0-9a-fA-F]{8}/.test(v)) {
+        try {
+          const parsed = errorsIface.parseError(v);
+          if (parsed && ERROR_TEXT[parsed.name]) return ERROR_TEXT[parsed.name](parsed.args);
+        } catch {
+          /* không phải dữ liệu lỗi */
+        }
+      } else if (v && typeof v === "object") {
+        stack.push(v);
+      }
+    }
+  }
+  if (/insufficient funds/i.test(String(e?.message || e?.info?.error?.message || ""))) {
+    return "Ví không đủ ETH để trả phí gas";
+  }
+  return null;
+}
+
 export function errorMessage(e) {
+  const decoded = decodeRevert(e);
+  if (decoded) return decoded;
   return (
     e?.info?.error?.message ||
     e?.reason ||

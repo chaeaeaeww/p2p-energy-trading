@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ethers } from "ethers";
 import {
   Activity, AlertTriangle, BatteryCharging, Blocks, BrainCircuit, CircleDollarSign,
-  Coins, Cpu, Gauge, Home, Link2, Network, Radio, Sun, Wallet, Zap,
+  Coins, Cpu, Gauge, Home, Link2, LogOut, Network, Radio, Sun, Wallet, Zap,
 } from "lucide-react";
 import {
   Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
@@ -118,9 +118,19 @@ export default function App() {
           {wallet.account && (
             <Badge tone={wallet.wrongNetwork ? "bad" : "ok"}>{wallet.wrongNetwork ? `Sai mạng (${wallet.chainId})` : CONFIG.chainName}</Badge>
           )}
-          <button className="wallet-btn" onClick={wallet.connect} disabled={wallet.connecting}>
-            <Wallet size={17} /> {wallet.connecting ? "Đang kết nối…" : wallet.account ? shorten(wallet.account) : "Kết nối MetaMask"}
+          <button
+            className="wallet-btn"
+            onClick={wallet.account ? wallet.switchAccount : wallet.connect}
+            disabled={wallet.connecting}
+            title={wallet.account ? "Đổi sang ví khác" : "Kết nối MetaMask"}
+          >
+            <Wallet size={17} /> {wallet.connecting ? "Đang kết nối…" : wallet.account ? `${market.myHouseId ? market.myHouseId + " · " : ""}${shorten(wallet.account)}` : "Kết nối MetaMask"}
           </button>
+          {wallet.account && (
+            <button className="wallet-btn" onClick={wallet.disconnect} title="Ngắt kết nối ví">
+              <LogOut size={16} /> Ngắt kết nối
+            </button>
+          )}
         </div>
       </header>
 
@@ -342,7 +352,7 @@ function Alert({ children }) {
 
 const EVENT_TONE = {
   OrderMatched: "ok", Settled: "ok", RewardPaid: "ok", AuctionClosed: "info",
-  OrderPlaced: "neutral", MeterReported: "info", HouseRegistered: "neutral",
+  OrderPlaced: "neutral", MeterReported: "info", HouseRegistered: "neutral", ForecastSubmitted: "info",
 };
 
 function who(market, addr) {
@@ -354,6 +364,7 @@ function describeEvent(e, market, dec, sym) {
   const price = v => `${fmt(Number(pricePerWhToKwh(v, dec)), 4)} ${sym}/kWh`;
   switch (e.name) {
     case "HouseRegistered": return `${shorten(a.account)} ↔ hộ ${a.houseId}`;
+    case "ForecastSubmitted": return `${who(market, a.account)}: AI dự báo phát ${a.genPredWh} Wh · dùng ${a.loadPredWh} Wh`;
     case "MeterReported": return `${who(market, a.account)}: phát ${a.producedWh} Wh · dùng ${a.consumedWh} Wh`;
     case "OrderPlaced": return `${who(market, a.trader)} ${a.isBid ? "MUA" : "BÁN"} ${a.qtyWh} Wh @ ${price(a.pricePerWh)} (lệnh #${a.orderId})`;
     case "AuctionClosed": return `Giá khớp ${price(a.clearingPricePerWh)} · tổng ${a.matchedWh} Wh`;

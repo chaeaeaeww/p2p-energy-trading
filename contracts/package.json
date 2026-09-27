@@ -1,0 +1,36 @@
+{
+  "name": "p2p-energy-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts EnergyToken + EnergyMarket (Hardhat)",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "broker": "node scripts/broker.js",
+    "mock": "node scripts/mock-iot-ai.js",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "seed:local": "hardhat run scripts/seed.js --network localhost",
+    "bridge:local": "hardhat run scripts/bridge.js --network localhost",
+    "demo:local": "hardhat run scripts/demo-flow.js --network localhost",
+    "status:local": "hardhat status --network localhost",
+    "advance:local": "hardhat advance --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "seed:sepolia": "hardhat run scripts/seed.js --network sepolia",
+    "bridge:sepolia": "hardhat run scripts/bridge.js --network sepolia",
+    "status:sepolia": "hardhat status --network sepolia"
+  },
+  "author": "Nhom 08",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.29.1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.6.1",
+    "aedes": "^1.2.0",
+    "dotenv": "^18.0.4",
+    "mqtt": "^5.16.0",
+    "ws": "^8.22.0"
+  },
+  "private": true
+}

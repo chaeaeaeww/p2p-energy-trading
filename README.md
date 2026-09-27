@@ -77,12 +77,15 @@ cp .env.example .env      # điền RPC URL, private key, địa chỉ contract.
 
 ## Chạy demo End-to-End (IoT → AI → Smart Contract)
 
+Cài 1 lần: `cd contracts && npm install`, `cd dashboard && npm install`.
+
 | Bước | Lệnh | Thư mục |
 |---|---|---|
-| 1. Chạy blockchain local | `npx hardhat node` | `contracts/` |
-| 2. Deploy contract | `npx hardhat run scripts/deploy.js --network localhost` | `contracts/` |
-| 3. Chạy mô hình AI | `python src/serve.py` | `ai_model/` |
-| 4. Chạy simulator IoT | `python simulator/simulate_meters.py` | `iot_code/` |
-| 5. Mở dashboard | `npm install && npm run dev` | `dashboard/` |
+| 1. Blockchain local | `npm run node` | `contracts/` |
+| 2. MQTT broker (TCP 1883 + WS 9001) | `npm run broker` | `contracts/` |
+| 3. Deploy + đăng ký hộ H01–H04 | `npm run deploy:local` rồi `npm run seed:local` | `contracts/` |
+| 4. Oracle bridge MQTT → contract | `npm run bridge:local` | `contracts/` |
+| 5. Nguồn dữ liệu IoT + AI | simulator/ESP32 + AI service (tạm thời: `npm run mock`) | `iot_code/`, `ai_model/` |
+| 6. Dashboard | `npm run dev` | `dashboard/` |
 
-> Lệnh cụ thể sẽ được cập nhật khi từng tầng hoàn thiện.
+Chi tiết contract, định dạng MQTT, lệnh điều khiển và deploy Sepolia: xem [`contracts/README.md`](contracts/README.md).
