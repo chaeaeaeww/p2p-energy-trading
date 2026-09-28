@@ -132,7 +132,7 @@ async function main() {
     else if (kind === "forecast") onForecast(houseId, payload).catch(e => log(`forecast ${houseId}: ${e.message}`));
   });
 
-  // Telemetry: E_gen_Wh / E_load_Wh là bộ đếm cộng dồn (giống ESP32) -> lấy phần tăng thêm, cộng vào slot hiện tại
+  // Telemetry: E_gen_Wh / E_load_Wh là bộ đếm cộng dồn (giống công tơ điện) -> lấy phần tăng thêm, cộng vào slot hiện tại
   function onTelemetry(houseId, p) {
     const gen = num(p.E_gen_Wh, p.energyGenWh, p.gen_wh);
     const load = num(p.E_load_Wh, p.energyLoadWh, p.load_wh);

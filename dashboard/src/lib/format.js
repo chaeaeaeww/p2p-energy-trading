@@ -15,7 +15,7 @@ function num(...candidates) {
   return null;
 }
 
-// Timestamp chấp nhận giây (ESP32 thường gửi epoch giây) hoặc mili-giây.
+// Timestamp chấp nhận giây (Raspberry Pi gửi epoch giây) hoặc mili-giây.
 function toMs(ts) {
   const n = num(ts);
   if (n === null) return Date.now();
@@ -23,7 +23,7 @@ function toMs(ts) {
 }
 
 /**
- * Chuẩn hoá payload telemetry từ ESP32/simulator.
+ * Chuẩn hoá payload telemetry từ Raspberry Pi 4/simulator.
  * Topic: <prefix>/<houseId>/telemetry
  * Chấp nhận cả khoá ngắn (V, I, P, ts) lẫn khoá dài (voltage, current, power, timestamp).
  */

@@ -5,7 +5,7 @@ import { parseForecast, parseTelemetry } from "../lib/format";
 
 /**
  * Kết nối broker MQTT qua WebSocket (trình duyệt không mở được TCP 1883).
- * - ESP32/simulator publish: <prefix>/<houseId>/telemetry
+ * - Raspberry Pi 4/simulator publish: <prefix>/<houseId>/telemetry
  * - AI/gateway publish:      <prefix>/<houseId>/forecast
  * Trả về dữ liệu gom theo houseId, không sinh dữ liệu giả.
  */

@@ -19,8 +19,6 @@ venv/
 # Data lớn (chỉ commit dữ liệu mẫu nhỏ)
 ai_model/data/raw/*.csv
 !ai_model/data/raw/sample*.csv
-# PlatformIO / Arduino
-iot_code/esp32/.pio/
 # OS / IDE
 .DS_Store
 Thumbs.db

@@ -32,7 +32,7 @@ total_e_load_wh = 0.0
 # ==========================================
 # KHỞI TẠO MQTT CLIENT
 # ==========================================
-client = mqtt.Client(client_id=f"ESP32_Sim_{HOUSE_ID}")
+client = mqtt.Client(client_id=f"Pi4_Edge_{HOUSE_ID}")
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:

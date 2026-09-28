@@ -157,7 +157,7 @@ export default function App() {
             <p className="eyebrow">CYBER-PHYSICAL ENERGY MARKET</p>
             <h1>Energy Dashboard</h1>
             <p className="hero-copy">
-              Dữ liệu đo thật từ ESP32 qua MQTT, dự báo AI, và phiên đấu giá P2P trên Smart Contract — ký giao dịch bằng MetaMask, truy vết trên Etherscan.
+              Dữ liệu điện từ Raspberry Pi 4 qua MQTT, dự báo AI, và phiên đấu giá P2P trên Smart Contract — ký giao dịch bằng MetaMask, truy vết trên Etherscan.
             </p>
           </div>
           <div className="status-stack">

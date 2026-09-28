@@ -68,7 +68,7 @@ Mở 5 terminal, terminal nào cũng `cd contracts` trước, trừ terminal das
 | 2 | `npm run broker` | MQTT broker (TCP 1883, WS 9001) |
 | 3 | `npm run deploy:local` rồi `npm run seed:local` | Deploy và đăng ký H01–H04, in private key để import MetaMask |
 | 4 | `npm run bridge:local` | Oracle bridge |
-| 5 | `npm run mock` (hoặc simulator/ESP32 và AI thật) | Nguồn dữ liệu IoT + AI |
+| 5 | `npm run mock` (hoặc Raspberry Pi 4 và AI thật) | Nguồn dữ liệu IoT + AI |
 | 6 | `cd dashboard` → `npm run dev` | Web3 dashboard |
 
 - Muốn các hộ tự đặt lệnh theo dự báo AI: đặt `AUTO_TRADE=true` trong `.env` trước khi chạy bridge.
@@ -103,5 +103,5 @@ p2p/<houseId>/forecast    {"houseId":"H01","slot":59681792,"genPredWh":420,"load
 p2p/chain/slot            (bridge publish, retained) {"slot":59681791,"slotDuration":120,"slotStart":...}
 ```
 
-- `E_gen_Wh` và `E_load_Wh` là **bộ đếm cộng dồn**, giống firmware ESP32.
+- `E_gen_Wh` và `E_load_Wh` là **bộ đếm cộng dồn**, giống công tơ điện (edge node Raspberry Pi 4 gửi đúng dạng này).
 - AI nên đọc `p2p/chain/slot` rồi dự báo cho `slot + 1`. Nếu message không có `slot`, bridge tự hiểu là slot kế tiếp.

@@ -1,59 +1,100 @@
-# ☀️ P2P Solar Energy Trading — CPS tích hợp IoT · AI · Blockchain
+# ☀️ P2P Solar Energy Trading — IoT · AI · Blockchain
 
-> Project cuối kỳ học phần **Blockchain và Ứng dụng**<br>
-> **Đề tài 1:** Hệ thống quản lý và giao dịch năng lượng mặt trời P2P<br>
-> GVHD: Huỳnh Thế Thiện · Nhóm: **08**
+> Đồ án cuối kỳ **Blockchain và Ứng dụng** · Đề tài 1 · GVHD: Huỳnh Thế Thiện · **Nhóm 08**<br>
+> GitHub: https://github.com/chaeaeaeww/p2p-energy-trading
 
-Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện dư (IoT), dùng AI dự báo sản lượng và nhu cầu tiêu thụ, sau đó Smart Contract tự động mở phiên đấu giá, khớp lệnh và thanh toán bằng token.
+## Tổng quan
 
-## Thành viên & phân công
+Hệ thống cho các hộ có điện mặt trời mua bán phần điện dư trực tiếp với nhau:
 
-| Thành viên | MSSV | Phụ trách |
-|---|---|---|
-| Đoàn Minh Duy Bình | 23139005 | Tầng IoT |
-| Thái Hữu Lợi | 23139027 | Tầng AI |
-| Vũ Quốc Bảo | 23139004 | Smart Contract |
-| Lê Nhật Nam | 23139029 | Web3 Dashboard |
+1. **IoT:** Raspberry Pi 4 làm edge node cho hộ H01, tính V/I/P và điện năng (Wh) rồi gửi qua MQTT. Các hộ H02–H04 dùng bộ giả lập.
+2. **AI:** 2 mô hình LSTM dự báo sản lượng và nhu cầu điện cho phiên kế tiếp.
+3. **Smart Contract:** token ERC-20 **SOLAR** + `EnergyMarket` mở phiên đấu giá, khớp lệnh, thanh toán theo số đo thực tế, phạt giao thiếu 20%, thưởng 1 SOLAR/kWh.
+4. **Web3 Dashboard:** React + MetaMask, giám sát realtime, đặt lệnh, truy vết giao dịch trên Etherscan.
 
-## Kiến trúc tổng quan
+![Kiến trúc](docs/images/kien_truc.png)
 
-```
- [ESP32 / Simulator] --MQTT--> [AI forecast (Regression/LSTM)]
-                                          |
-                                ethers.js / web3.py
-                                          v
-                 [Smart Contract: EnergyToken + EnergyMarket]
-                    (Hardhat local / Sepolia testnet)
-                                          ^
-                    [Web3 Dashboard + MetaMask + Etherscan]
-```
+| Thành viên | MSSV | Phụ trách | Thư mục |
+|---|---|---|---|
+| Đoàn Minh Duy Bình | 23139005 | IoT (Raspberry Pi 4) | `iot_code/Pi4/` |
+| Thái Hữu Lợi | 23139027 | AI | `ai_model/` |
+| Vũ Quốc Bảo | 23139004 | Smart Contract | `contracts/` |
+| Lê Nhật Nam | 23139029 | Web3 Dashboard | `dashboard/` |
 
-| Tầng | Vai trò |
-|---|---|
-| IoT | Đo dòng/áp, sản lượng điện dư → publish MQTT/HTTP |
-| AI | Dự báo sản lượng & nhu cầu tiêu thụ theo chuỗi thời gian |
-| Blockchain | Nhận dữ liệu, mở phiên đấu giá, khớp lệnh, thanh toán token |
-| Dashboard | Kết nối ví, hiển thị realtime, đặt lệnh, truy vết giao dịch |
+Báo cáo kỹ thuật: [`docs/report/`](docs/report/)
 
-## Cấu trúc repo
+## Cài đặt (1 lần)
 
-```
-.
-├── README.md             # Hướng dẫn cài đặt & chạy demo
-├── Report_Nhom08.pdf     # Báo cáo kỹ thuật (thêm khi hoàn thành)
-├── .env.example          # Mẫu biến môi trường — copy thành .env
-├── docs/
-│   ├── report/           # Bản thảo báo cáo
-│   └── images/           # Sơ đồ, ảnh chụp demo
-├── contracts/            # Smart Contracts (Solidity) + deploy script + test
-├── ai_model/
-│   ├── notebook/         # Train LSTM (Kaggle): sản lượng + tiêu thụ
-│   ├── src/              # service_lstm.py — dịch vụ dự báo (MQTT + HTTP)
-│   └── weights_lstm/     # Trọng số, scaler, config, dữ liệu mẫu
-├── iot_code/
-│   ├── simulator/        # Giả lập smart meter (Python, MQTT)
-│   └── esp32/            # Firmware ESP32
-└── dashboard/
-    └── src/              # Web3 dashboard (ethers.js, MetaMask)
+**Máy tính chủ:** cần Node.js 18+, Python 3.10/3.11 và MetaMask.
+
+```bash
+git clone https://github.com/chaeaeaeww/p2p-energy-trading.git
+cd p2p-energy-trading
+cp .env.example .env
+cp dashboard/.env.example dashboard/.env
+cd contracts && npm install && cd ..
+cd dashboard && npm install && cd ..
+pip install -r ai_model/requirements.txt
 ```
 
+**Raspberry Pi 4:** chép `iot_code/Pi4/` vào `~/P2P_Edge_Node`, rồi chạy:
+
+```bash
+cd ~/P2P_Edge_Node
+python3 -m venv p2p_env && source p2p_env/bin/activate
+pip install -r requirements.txt
+```
+
+Trong `edge_node.py`, đặt `BROKER` = IP của máy tính chủ. Với Wi-Fi hotspot của Windows thì IP này là `192.168.137.1`.
+
+## Chạy demo (Hardhat local)
+
+**Cách nhanh (Windows):** chạy `AUTO_START.bat`. Script tự mở lần lượt: blockchain → broker MQTT → deploy + seed → Gateway + AI → dashboard, rồi SSH vào Pi (`rinaka@192.168.137.122`) để chạy `edge_node.py`. Nếu IP hoặc user của Pi khác thì sửa dòng cuối của script.
+
+**Cách thủ công:** mỗi dòng chạy trong một terminal.
+
+```bash
+cd contracts && npm run node                               # 1. blockchain local
+cd contracts && npm run broker                             # 2. MQTT broker (1883 / ws 9001)
+cd contracts && npm run deploy:local && npm run seed:local # 3. deploy + tạo hộ H01–H04
+cd contracts && npm run bridge:local                       # 4. Gateway / Oracle
+cd ai_model && python src/service_lstm.py                  # 5. AI dự báo (:8000)
+cd dashboard && npm run dev                                # 6. mở http://localhost:5173
+```
+
+Nguồn dữ liệu IoT:
+
+- **Hộ H01 (Raspberry Pi 4):** SSH vào Pi, chạy `source p2p_env/bin/activate && python edge_node.py`.
+- **Hộ H02–H04 (giả lập):** trong `.env`, đặt `MOCK_FORECAST=false` và bỏ H01 khỏi `MOCK_HOUSES`, rồi chạy `cd contracts && npm run mock`.
+
+**Trên dashboard:**
+
+1. Trong MetaMask, thêm mạng `Hardhat Local` (RPC `http://127.0.0.1:8545`, chain ID `31337`). Import private key của H01–H04 được in ra ở bước 3.
+2. Bấm **Kết nối MetaMask**, chọn hộ, rồi đặt lệnh **Bán** (hộ dư điện) hoặc **Mua** (hộ thiếu điện).
+3. Hết phiên (120 s), Gateway tự đóng phiên, khớp lệnh, ghi số đo và thanh toán. Kết quả hiện ở khung **Truy vết on-chain**.
+
+> Muốn các hộ tự giao dịch theo dự báo AI: đặt `AUTO_TRADE=true` trong `.env` trước khi chạy Gateway.
+>
+> Mỗi lần chạy lại `npm run node`, vào MetaMask → *Settings → Advanced → Clear activity tab data*.
+
+Lệnh hỗ trợ khi demo (chạy trong `contracts/`):
+
+```bash
+npx hardhat status --network localhost    # xem phiên, sổ lệnh, số dư
+npx hardhat advance --network localhost   # tua nhanh 1 phiên
+npm run demo:local                        # chạy trọn 1 phiên bằng script (dự phòng)
+npx hardhat test                          # 19 unit test
+```
+
+## Chạy trên Sepolia
+
+Điền vào `.env`: `PRIVATE_KEY` (ví testnet có SepoliaETH), `ETHERSCAN_API_KEY` và `SEED_HOUSES=H01:0x…,H02:0x…`. Sau đó chạy:
+
+```bash
+cd contracts
+npm run deploy:sepolia && npm run seed:sepolia && npm run bridge:sepolia
+```
+
+## Tài liệu chi tiết
+
+[Smart contract & Gateway](contracts/README.md) · [AI service](ai_model/README.md) · [Edge node Raspberry Pi 4](iot_code/Pi4/edge_node.py)

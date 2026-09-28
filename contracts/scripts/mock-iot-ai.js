@@ -1,9 +1,9 @@
 // GIẢ LẬP TẠM tầng IoT + AI để tập dượt phần blockchain khi 2 tầng kia chưa xong.
-// Khi có simulator/ESP32 thật (iot_code/) và AI service thật (ai_model/) thì KHÔNG chạy file này.
+// Khi có edge node Raspberry Pi 4 (iot_code/Pi4/) và AI service thật (ai_model/) thì KHÔNG chạy file này.
 //
 //   node scripts/mock-iot-ai.js
 //
-// - Telemetry: <prefix>/<houseId>/telemetry mỗi 2s, E_gen_Wh/E_load_Wh cộng dồn (cùng định dạng ESP32)
+// - Telemetry: <prefix>/<houseId>/telemetry mỗi 2s, E_gen_Wh/E_load_Wh cộng dồn (cùng định dạng edge node Raspberry Pi 4)
 // - Forecast : nghe <prefix>/chain/slot (bridge publish), mỗi khi sang slot mới thì dự báo cho slot kế tiếp
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "..", "..", ".env"), quiet: true });

@@ -6,7 +6,7 @@ Tầng AI — dịch vụ dự báo sản lượng & tiêu thụ (2 mô hình LS
 
 Dịch vụ luôn sẵn sàng cho phần cứng:
   - Khởi động trước hay sau broker đều được: tự kết nối lại khi broker tắt/bật (paho loop_start).
-  - Nghe <prefix>/<houseId>/telemetry từ ESP32/simulator bất cứ lúc nào; mỗi 15 phút thực tế
+  - Nghe <prefix>/<houseId>/telemetry từ Raspberry Pi 4/bộ giả lập bất cứ lúc nào; mỗi 15 phút thực tế
     gom dữ liệu thành 1 bước lịch sử và chạy lại 2 LSTM (luồng hẹn giờ riêng, không phụ thuộc bridge).
   - Có bridge (chain/slot còn mới)  -> publish dự báo theo slot on-chain như cũ.
     Không có bridge                 -> vẫn publish dự báo định kỳ để dashboard/thiết bị đọc được.
@@ -357,7 +357,7 @@ def _num(*xs):
 
 
 def on_telemetry(house_id, payload, via="mqtt"):
-    """Nhận 1 bản tin công tơ (ESP32/simulator). E_gen_Wh/E_load_Wh là bộ đếm cộng dồn."""
+    """Nhận 1 bản tin công tơ (Raspberry Pi 4/bộ giả lập). E_gen_Wh/E_load_Wh là bộ đếm cộng dồn."""
     gen = _num(payload.get("E_gen_Wh"), payload.get("energyGenWh"), payload.get("gen_wh"))
     load = _num(payload.get("E_load_Wh"), payload.get("energyLoadWh"), payload.get("load_wh"))
     now = time.time()
@@ -696,7 +696,7 @@ def forecast_api(slot_duration_sec: float = BUCKET_SEC):
 
 @app.post("/telemetry/{house_id}")
 def telemetry_api(house_id: str, payload: dict = Body(...)):
-    """Thiết bị không dùng MQTT có thể POST cùng định dạng payload như ESP32."""
+    """Thiết bị không dùng MQTT có thể POST cùng định dạng payload như edge node Raspberry Pi 4."""
     on_telemetry(house_id, payload, via="http")
     return {"ok": True}
 
