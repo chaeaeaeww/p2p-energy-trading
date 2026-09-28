@@ -47,11 +47,9 @@ Các hộ gia đình/nhà máy có pin mặt trời đo sản lượng điện d
 │   └── images/           # Sơ đồ, ảnh chụp demo
 ├── contracts/            # Smart Contracts (Solidity) + deploy script + test
 ├── ai_model/
-│   ├── data/raw/         # Dữ liệu gốc
-│   ├── data/processed/   # Dữ liệu đã xử lý
-│   ├── notebooks/        # EDA, huấn luyện, đánh giá
-│   ├── src/              # Code train / predict / API
-│   └── weights/          # File trọng số mô hình
+│   ├── notebook/         # Train LSTM (Kaggle): sản lượng + tiêu thụ
+│   ├── src/              # service_lstm.py — dịch vụ dự báo (MQTT + HTTP)
+│   └── weights_lstm/     # Trọng số, scaler, config, dữ liệu mẫu
 ├── iot_code/
 │   ├── simulator/        # Giả lập smart meter (Python, MQTT)
 │   └── esp32/            # Firmware ESP32

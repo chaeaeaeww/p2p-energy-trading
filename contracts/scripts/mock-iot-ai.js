@@ -13,6 +13,8 @@ const env = process.env;
 const PREFIX = env.MQTT_TOPIC_PREFIX || "p2p";
 const MQTT_URL = env.MQTT_URL || `mqtt://${env.MQTT_HOST || "localhost"}:${env.MQTT_PORT || 1883}`;
 const PERIOD_MS = 2000;
+// MOCK_FORECAST=false: chỉ giả lập telemetry (thay phần cứng), để AI thật (ai_model) lo phần dự báo
+const MOCK_FORECAST = env.MOCK_FORECAST !== "false";
 
 // Công suất trung bình (W): hộ bán có pin mặt trời lớn, hộ mua tiêu thụ nhiều
 const HOUSES = (env.MOCK_HOUSES || "H01:4000:1500,H02:3500:1800,H03:400:3200,H04:300:2600")
@@ -27,8 +29,8 @@ let lastForecastSlot = null;
 
 const client = mqtt.connect(MQTT_URL, { clientId: `mock_${Math.random().toString(16).slice(2, 8)}` });
 client.on("connect", () => {
-  console.log(`[mock] kết nối ${MQTT_URL}, hộ: ${HOUSES.map(h => h.id).join(", ")}`);
-  client.subscribe(`${PREFIX}/chain/slot`);
+  console.log(`[mock] kết nối ${MQTT_URL}, hộ: ${HOUSES.map(h => h.id).join(", ")}${MOCK_FORECAST ? "" : " (chỉ telemetry, không forecast)"}`);
+  if (MOCK_FORECAST) client.subscribe(`${PREFIX}/chain/slot`);
 });
 client.on("error", e => console.log(`[mock] MQTT lỗi: ${e.message}`));
 

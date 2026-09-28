@@ -1,0 +1,24 @@
+{
+  "feature_cols": [
+    "temperature",
+    "MODULE_TEMPERATURE",
+    "IRRADIATION",
+    "hour_sin",
+    "hour_cos",
+    "cf_lag_24h"
+  ],
+  "window": 96,
+  "slot_duration_sec": 900,
+  "target": "capacity_factor (0-1, = power_kw / plant_peak_kw)",
+  "plant_peak_kw": 27.59661470532,
+  "house_pv_kw": {
+    "H01": 4.0,
+    "H02": 3.5,
+    "H03": 0.4,
+    "H04": 0.3
+  },
+  "metrics": {
+    "linear_regression_mae": 0.04775741248032925,
+    "lstm_mae": 0.04246601185205531
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "feature_cols": [
+    "temperature",
+    "humidity",
+    "hour_sin",
+    "hour_cos",
+    "consumption_kw",
+    "consumption_lag_1",
+    "consumption_lag_24h"
+  ],
+  "window": 96,
+  "slot_duration_sec": 900,
+  "target": "consumption_kw (kW thật của hộ HomeC, qua scaler_y_c để inverse_transform)",
+  "reference_load_kw": 0.6164733333333333,
+  "house_base_load_w": {
+    "H01": 1500,
+    "H02": 1800,
+    "H03": 3200,
+    "H04": 2600
+  },
+  "metrics": {
+    "lstm_mae_kw": 0.21083314536910563,
+    "naive_mae_kw": 0.21769550811124572
+  },
+  "limitation": "Dùng chung 1 pattern hộ gia đình thật (HomeC) cho cả 4 hộ H01-H04 (không có dữ liệu tiêu thụ thật riêng cho từng hộ) — chỉ scale theo loadW của từng hộ trong .env, không phản ánh khác biệt hành vi tiêu thụ thật giữa các hộ; LSTM chỉ nhỉnh hơn naive baseline ~2.5% MAE."
+}
