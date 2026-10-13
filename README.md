@@ -7,10 +7,10 @@
 
 Hệ thống cho các hộ có điện mặt trời mua bán phần điện dư trực tiếp với nhau:
 
-1. **IoT:** Raspberry Pi 4 làm edge node cho hộ H01, tính V/I/P và điện năng (Wh) rồi gửi qua MQTT. Các hộ H02–H04 dùng bộ giả lập.
+1. **IoT:** Raspberry Pi 4 làm edge node cho hộ H01, giả lập V/I/P theo mô hình vật lý của tấm pin và tải (không dùng cảm biến), cộng dồn điện năng (Wh) rồi gửi qua MQTT. Các hộ H02–H04 dùng bộ giả lập trên máy chủ.
 2. **AI:** 2 mô hình LSTM dự báo sản lượng và nhu cầu điện cho phiên kế tiếp.
 3. **Smart Contract:** token ERC-20 **SOLAR** + `EnergyMarket` mở phiên đấu giá, khớp lệnh, thanh toán theo số đo thực tế, phạt giao thiếu 20%, thưởng 1 SOLAR/kWh.
-4. **Web3 Dashboard:** React + MetaMask, giám sát realtime, đặt lệnh, truy vết giao dịch trên Etherscan.
+4. **Web3 Dashboard:** React + MetaMask, giám sát realtime, đặt lệnh, truy vết giao dịch on-chain (liên kết Etherscan khi chạy Sepolia).
 
 ![Kiến trúc](docs/images/kien_truc.png)
 
