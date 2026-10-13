@@ -86,15 +86,6 @@ npm run demo:local                        # chạy trọn 1 phiên bằng script
 npx hardhat test                          # 19 unit test
 ```
 
-## Chạy trên Sepolia
-
-Điền vào `.env`: `PRIVATE_KEY` (ví testnet có SepoliaETH), `ETHERSCAN_API_KEY` và `SEED_HOUSES=H01:0x…,H02:0x…`. Sau đó chạy:
-
-```bash
-cd contracts
-npm run deploy:sepolia && npm run seed:sepolia && npm run bridge:sepolia
-```
-
 ## Tài liệu chi tiết
 
 [Smart contract & Gateway](contracts/README.md) · [AI service](ai_model/README.md) · [Edge node Raspberry Pi 4](iot_code/Pi4/edge_node.py)
